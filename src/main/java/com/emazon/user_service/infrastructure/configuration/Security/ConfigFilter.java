@@ -26,7 +26,7 @@ public class ConfigFilter {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/user/register").permitAll()
+                        .requestMatchers("/user/register/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement((session) -> session

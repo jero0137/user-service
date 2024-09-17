@@ -3,6 +3,7 @@ package com.emazon.user_service.infrastructure.output.adapter;
 import com.emazon.user_service.domain.model.Role;
 import com.emazon.user_service.domain.model.User;
 import com.emazon.user_service.domain.spi.IUserPersistencePort;
+import com.emazon.user_service.infrastructure.exception.EmailAlreadyExistsException;
 import com.emazon.user_service.infrastructure.output.entity.RoleEntity;
 import com.emazon.user_service.infrastructure.output.entity.UserEntity;
 import com.emazon.user_service.infrastructure.output.mapper.UserEntityMapper;
@@ -19,24 +20,15 @@ public class UserJpaAdapter implements IUserPersistencePort {
 
     @Override
     public void registerUser(User user) {
-        UserEntity userEntity = new UserEntity();
 
-        userEntity.setEmail(user.getEmail());
-        userEntity.setDocument(user.getDocument());
-        userEntity.setPassword(user.getPassword());
-        userEntity.setPhone(user.getPhone());
+        UserEntity userEntity = userEntityMapper.toUserEntity(user);
 
-        Role role = user.getRole();
-        RoleEntity roleEntity = new RoleEntity();
-
-        roleEntity.setId(role.getId());
-        roleEntity.setName(role.getName());
-
-        userEntity.setRole(roleEntity);
-        userEntity.setName(user.getName());
-        userEntity.setLastName(user.getLastName());
-        userEntity.setId(user.getId());
-
+        if(userRepository.existsByEmail(user.getEmail())){
+            throw new EmailAlreadyExistsException();
+        }
+        if(userRepository.existsByDocument(user.getDocument())){
+            throw new EmailAlreadyExistsException();
+        }
         userRepository.save(userEntity);
     }
 

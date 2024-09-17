@@ -9,6 +9,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class RegisterDtoRequest {
     private String name;
     private String lastName;

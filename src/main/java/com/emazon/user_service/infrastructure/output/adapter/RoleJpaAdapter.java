@@ -7,6 +7,8 @@ import com.emazon.user_service.infrastructure.output.mapper.RoleEntityMapper;
 import com.emazon.user_service.infrastructure.output.repository.IRoleRepository;
 import lombok.AllArgsConstructor;
 
+import java.util.Optional;
+
 @AllArgsConstructor
 public class RoleJpaAdapter implements IRolePersistencePort {
 

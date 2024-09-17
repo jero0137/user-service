@@ -17,8 +17,8 @@ public class UserRestController {
 
     private final IUserHandler userHandler;
 
-    @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody @Valid RegisterDtoRequest registerDtoRequest) {
+    @PostMapping("/register/aux_bodega")
+    public ResponseEntity<Void> registerUser(@RequestBody @Valid RegisterDtoRequest registerDtoRequest) {
         userHandler.registerUser(registerDtoRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

@@ -1,11 +1,17 @@
 package com.emazon.user_service.domain.useCase;
 
+import com.emazon.user_service.Utils.Constats;
+import com.emazon.user_service.Utils.RegexConstants;
 import com.emazon.user_service.domain.api.IUserService;
+import com.emazon.user_service.domain.exception.*;
 import com.emazon.user_service.domain.model.Role;
 import com.emazon.user_service.domain.model.User;
 import com.emazon.user_service.domain.spi.IRolePersistencePort;
 import com.emazon.user_service.domain.spi.IUserPersistencePort;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.time.LocalDate;
+import java.time.Period;
 
 public class UserUseCase implements IUserService {
 
@@ -21,17 +27,27 @@ public class UserUseCase implements IUserService {
     }
     @Override
     public void registerUser(User user) {
-        if (userPersistencePort.existsByEmail(user.getEmail())) {
-            throw new IllegalArgumentException("Email already exists");
-        }
-        if (userPersistencePort.existsByDocument(user.getDocument())) {
-            throw new IllegalArgumentException("Document already exists");
+
+        if (user.getName() == null) {
+            throw new UserNotNullException();
         }
         if (user.getPassword() == null) {
-            throw new IllegalArgumentException("Password cannot be null");
+            throw new PasswordNotNullException();
+        }
+        if (!user.getPhone().matches(RegexConstants.PHONE_REGEX)) {
+            throw new IllegalPhoneFormatException();
+        }
+        if (!user.getEmail().matches(RegexConstants.EMAIL_REGEX)) {
+            throw new InvalidEmailFormatException();
         }
 
-        Role role = rolePersistencePort.findByName("AUX_BODEGA");
+        boolean isAdult = Period.between(user.getBirthDate(), LocalDate.now()).getYears() >= 18;
+        if (!isAdult) {
+            throw new NotAdultException();
+        }
+
+
+        Role role = rolePersistencePort.findByName(Constats.ROLE_AUX_BODEGA);
         user.setRole(role);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
