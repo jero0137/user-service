@@ -96,9 +96,9 @@ class UserUseCaseTest {
         user.setName("John");
         user.setLastName("Doe");
         user.setDocument("123456789");
-        user.setPhone("+573005698325");
-        user.setBirthDate(LocalDate.of(2000, 1, 1));
-        user.setEmail("johndoe@example.com");
+        user.setPhone("+1234567890");
+        user.setBirthDate(LocalDate.of(2000, 1, 1)); // Mayor de edad
+        user.setEmail("john.doe@example.com");
         user.setPassword("password");
 
         Role role = new Role();
@@ -107,20 +107,18 @@ class UserUseCaseTest {
         when(rolePersistencePort.findByName(Constats.ROLE_AUX_BODEGA)).thenReturn(role);
         when(passwordEncoder.encode(any(String.class))).thenReturn("encoded_password");
 
-        doNothing().when(userPersistencePort).registerUser(any(User.class));
-
         userUseCase.registerUser(user);
 
         ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
         verify(userPersistencePort, times(1)).registerUser(userCaptor.capture());
-
         User capturedUser = userCaptor.getValue();
+
         assertEquals("John", capturedUser.getName());
         assertEquals("Doe", capturedUser.getLastName());
         assertEquals("123456789", capturedUser.getDocument());
-        assertEquals("+573005698325", capturedUser.getPhone());
+        assertEquals("+1234567890", capturedUser.getPhone());
         assertEquals(LocalDate.of(2000, 1, 1), capturedUser.getBirthDate());
-        assertEquals("johndoe@example.com", capturedUser.getEmail());
+        assertEquals("john.doe@example.com", capturedUser.getEmail());
         assertEquals("encoded_password", capturedUser.getPassword());
         assertEquals(Constats.ROLE_AUX_BODEGA, capturedUser.getRole().getName());
     }

@@ -15,9 +15,9 @@ import java.time.Period;
 
 public class UserUseCase implements IUserService {
 
-    private final IUserPersistencePort userPersistencePort;
-    private final IRolePersistencePort rolePersistencePort;
-    private final PasswordEncoder passwordEncoder;
+    IUserPersistencePort userPersistencePort;
+    IRolePersistencePort rolePersistencePort;
+    PasswordEncoder passwordEncoder;
 
 
     public UserUseCase(IUserPersistencePort userPersistencePort, IRolePersistencePort rolePersistencePort, PasswordEncoder passwordEncoder) {
