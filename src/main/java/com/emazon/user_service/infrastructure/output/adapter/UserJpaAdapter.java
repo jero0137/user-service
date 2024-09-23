@@ -1,11 +1,9 @@
 package com.emazon.user_service.infrastructure.output.adapter;
 
-import com.emazon.user_service.domain.model.Role;
 import com.emazon.user_service.domain.model.User;
 import com.emazon.user_service.domain.spi.IUserPersistencePort;
 import com.emazon.user_service.infrastructure.exception.DocumentAlreadyExistsException;
 import com.emazon.user_service.infrastructure.exception.EmailAlreadyExistsException;
-import com.emazon.user_service.infrastructure.output.entity.RoleEntity;
 import com.emazon.user_service.infrastructure.output.entity.UserEntity;
 import com.emazon.user_service.infrastructure.output.mapper.UserEntityMapper;
 import com.emazon.user_service.infrastructure.output.repository.IUserRepository;

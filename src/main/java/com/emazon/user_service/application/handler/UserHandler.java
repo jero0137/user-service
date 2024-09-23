@@ -1,11 +1,9 @@
 package com.emazon.user_service.application.handler;
 
-import com.emazon.user_service.Utils.Constats;
 import com.emazon.user_service.application.dto.RegisterDtoRequest;
 
 import com.emazon.user_service.application.mapper.UserDtoMapper;
 import com.emazon.user_service.domain.api.IUserService;
-import com.emazon.user_service.domain.model.Role;
 import com.emazon.user_service.domain.model.User;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;

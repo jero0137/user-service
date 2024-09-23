@@ -1,7 +1,6 @@
 package com.emazon.user_service.UseCaseTests;
 
-import com.emazon.user_service.Utils.Constats;
-import com.emazon.user_service.Utils.RegexConstants;
+import com.emazon.user_service.Utils.Constants;
 import com.emazon.user_service.domain.exception.*;
 import com.emazon.user_service.domain.model.Role;
 import com.emazon.user_service.domain.model.User;
@@ -17,7 +16,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
@@ -102,9 +100,9 @@ class UserUseCaseTest {
         user.setPassword("password");
 
         Role role = new Role();
-        role.setName(Constats.ROLE_AUX_BODEGA);
+        role.setName(Constants.ROLE_AUX_BODEGA);
 
-        when(rolePersistencePort.findByName(Constats.ROLE_AUX_BODEGA)).thenReturn(role);
+        when(rolePersistencePort.findByName(Constants.ROLE_AUX_BODEGA)).thenReturn(role);
         when(passwordEncoder.encode(any(String.class))).thenReturn("encoded_password");
 
         userUseCase.registerUser(user);
@@ -120,6 +118,6 @@ class UserUseCaseTest {
         assertEquals(LocalDate.of(2000, 1, 1), capturedUser.getBirthDate());
         assertEquals("john.doe@example.com", capturedUser.getEmail());
         assertEquals("encoded_password", capturedUser.getPassword());
-        assertEquals(Constats.ROLE_AUX_BODEGA, capturedUser.getRole().getName());
+        assertEquals(Constants.ROLE_AUX_BODEGA, capturedUser.getRole().getName());
     }
 }

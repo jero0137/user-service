@@ -1,6 +1,5 @@
 package com.emazon.user_service.application.dto;
 
-import com.emazon.user_service.Utils.Constats;
 import com.emazon.user_service.Utils.RegexConstants;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -9,7 +8,6 @@ import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.aspectj.apache.bcel.classfile.Constant;
 
 import java.time.LocalDate;
 

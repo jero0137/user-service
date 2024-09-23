@@ -1,6 +1,6 @@
 package com.emazon.user_service.domain.useCase;
 
-import com.emazon.user_service.Utils.Constats;
+import com.emazon.user_service.Utils.Constants;
 import com.emazon.user_service.Utils.RegexConstants;
 import com.emazon.user_service.domain.api.IUserService;
 import com.emazon.user_service.domain.exception.*;
@@ -50,7 +50,7 @@ public class UserUseCase implements IUserService {
         }
 
 
-        Role role = rolePersistencePort.findByName(Constats.ROLE_AUX_BODEGA);
+        Role role = rolePersistencePort.findByName(Constants.ROLE_AUX_BODEGA);
         user.setRole(role);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
