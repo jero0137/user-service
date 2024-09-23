@@ -1,7 +1,9 @@
 package com.emazon.user_service.domain.useCase;
 
 import com.emazon.user_service.domain.api.IAutheticationService;
+import com.emazon.user_service.domain.exception.PasswordNotNullException;
 import com.emazon.user_service.domain.exception.UserNotFoundException;
+import com.emazon.user_service.domain.exception.UserNotNullException;
 import com.emazon.user_service.domain.model.Authentication;
 import com.emazon.user_service.domain.model.Login;
 import com.emazon.user_service.domain.model.User;
@@ -23,6 +25,9 @@ public class AuthUseCase implements IAutheticationService {
 
     @Override
     public Authentication login(Login login) {
+
+        if(login.getEmail() == null || login.getEmail().isEmpty()) throw new UserNotNullException();
+        if (login.getPassword() == null || login.getPassword().isEmpty()) throw new PasswordNotNullException();
 
         Optional<User> user = userPersistencePort.findByEmail(login.getEmail());
 

@@ -19,13 +19,13 @@ public class ControllerAdvisor {
 
     @ExceptionHandler(PasswordNotNullException.class)
     public ResponseEntity<Map<String, String>> handlePasswordNullException() {
-        return ResponseEntity.status(HttpStatus.CONFLICT)
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(Collections.singletonMap(MESSAGE, ExceptionResponse.PASSWORD_CANNOT_BE_NULL.getMessage()));
     }
 
     @ExceptionHandler(IllegalPhoneFormatException.class)
     public ResponseEntity<Map<String, String>> handleIllegalPhoneFormatException() {
-        return ResponseEntity.status(HttpStatus.CONFLICT)
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(Collections.singletonMap(MESSAGE, ExceptionResponse.ILLEGAL_PHONE_FORMAT.getMessage()));
     }
 
@@ -44,37 +44,37 @@ public class ControllerAdvisor {
 
     @ExceptionHandler(UserNotNullException.class)
     public ResponseEntity<Map<String, String>> handleUserNotNull() {
-        return ResponseEntity.status(HttpStatus.CONFLICT)
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(Collections.singletonMap(MESSAGE, ExceptionResponse.USER_CANNOT_BE_NULL.getMessage()));
     }
 
     @ExceptionHandler(InvalidEmailFormatException.class)
     public ResponseEntity<Map<String, String>> handleInvalidEmailFormatException() {
-        return ResponseEntity.status(HttpStatus.CONFLICT)
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(Collections.singletonMap(MESSAGE, ExceptionResponse.INVALID_EMAIL_FORMAT.getMessage()));
     }
 
     @ExceptionHandler(NotAdultException.class)
     public ResponseEntity<Map<String, String>> handleNotAdultException() {
-        return ResponseEntity.status(HttpStatus.CONFLICT)
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(Collections.singletonMap(MESSAGE, ExceptionResponse.USER_MUST_BE_ADULT.getMessage()));
     }
 
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<Map<String, String>> handleInvalidCredentialsException() {
-        return ResponseEntity.status(HttpStatus.CONFLICT)
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(Collections.singletonMap(MESSAGE, ExceptionResponse.INVALID_CREDENTIALS.getMessage()));
     }
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Map<String, String>> handleUserNotFoundException() {
-        return ResponseEntity.status(HttpStatus.CONFLICT)
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(Collections.singletonMap(MESSAGE, ExceptionResponse.USER_NOT_FOUND.getMessage()));
     }
 
     @ExceptionHandler(InvalidDocumentException.class)
     public ResponseEntity<Map<String, String>> handleInvalidDocumentException() {
-        return ResponseEntity.status(HttpStatus.CONFLICT)
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(Collections.singletonMap(MESSAGE, ExceptionResponse.INVALID_DOCUMENT.getMessage()));
     }
 }
