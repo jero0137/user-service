@@ -3,6 +3,7 @@ package com.emazon.user_service.infrastructure.exceptionHandler;
 import com.emazon.user_service.domain.exception.*;
 import com.emazon.user_service.infrastructure.exception.DocumentAlreadyExistsException;
 import com.emazon.user_service.infrastructure.exception.EmailAlreadyExistsException;
+import com.emazon.user_service.infrastructure.exception.InvalidCredentialsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -57,5 +58,23 @@ public class ControllerAdvisor {
     public ResponseEntity<Map<String, String>> handleNotAdultException() {
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(Collections.singletonMap(MESSAGE, ExceptionResponse.USER_MUST_BE_ADULT.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<Map<String, String>> handleInvalidCredentialsException() {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.INVALID_CREDENTIALS.getMessage()));
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleUserNotFoundException() {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.USER_NOT_FOUND.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidDocumentException.class)
+    public ResponseEntity<Map<String, String>> handleInvalidDocumentException() {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.INVALID_DOCUMENT.getMessage()));
     }
 }

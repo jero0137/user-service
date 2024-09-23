@@ -8,6 +8,7 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-public class JwtService {
+public class JwtTokenProvider {
     private static final String SECRET_KEY = "294A404E635266556A586E327235753878214125442A472D4B6150645367566B";
 
     public String getToken(UserEntity user){
@@ -27,15 +28,21 @@ public class JwtService {
 
     public String generateToken(
             Map<String, Object> extraClaims,
-            @NotNull UserDetails userDetails
+            @NotNull UserEntity userDetails
 
     ) {
+        String role = userDetails.getAuthorities()
+                .stream().map(GrantedAuthority::getAuthority)
+                .findFirst()
+                .orElseThrow();
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
+                .claim("role",role )
+                .claim("id", userDetails.getId())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -52,12 +59,6 @@ public class JwtService {
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
-    }
-
-    public String generate(UserDetails userDetails) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("role", "USER");
-        return generateToken(claims, userDetails);
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {

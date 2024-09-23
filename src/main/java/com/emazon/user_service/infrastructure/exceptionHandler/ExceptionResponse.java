@@ -11,7 +11,15 @@ public enum ExceptionResponse {
 
     USER_CANNOT_BE_NULL("User cannot be null"),
 
-    USER_MUST_BE_ADULT("User must be adult");
+    USER_MUST_BE_ADULT("User must be adult"),
+
+    INVALID_CREDENTIALS("Invalid credentials"),
+
+    USER_NOT_FOUND("User not found"),
+
+    INVALID_DOCUMENT("Invalid format document");
+
+
 
     private final String message;
 

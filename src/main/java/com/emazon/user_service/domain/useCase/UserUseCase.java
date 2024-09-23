@@ -34,6 +34,9 @@ public class UserUseCase implements IUserService {
         if (user.getPassword() == null) {
             throw new PasswordNotNullException();
         }
+        if(!user.getDocument().matches(RegexConstants.DOCUMENT_REGEX)){
+            throw new InvalidDocumentException();
+        }
         if (!user.getPhone().matches(RegexConstants.PHONE_REGEX)) {
             throw new IllegalPhoneFormatException();
         }

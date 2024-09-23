@@ -26,7 +26,9 @@ public class ConfigFilter {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/user/register/**").permitAll()
+                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/swagger-ui/**","/v3/api-docs/**").permitAll()
+                        .requestMatchers("/user/register/aux_bodega").hasAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement((session) -> session
