@@ -12,8 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
-import java.util.HashSet;
-import java.util.Set;
 
 @RequiredArgsConstructor
 public class SecurityJpaAdapter implements ISecurityPersistencePort {
@@ -36,8 +34,6 @@ public class SecurityJpaAdapter implements ISecurityPersistencePort {
 
     @Override
     public Authentication getToken(User user) {
-        Set<String> roles = new HashSet<>();
-        roles.add(user.getRole().getName());
         UserEntity securityUser = userEntityMapper.toUserEntity(user);
         return new Authentication(jwtTokenProvider.getToken(securityUser));
     }

@@ -20,7 +20,7 @@ public class RegisterDtoRequest {
     private String name;
 
     @NotBlank
-    private String lastname;
+    private String lastName;
 
     @Pattern(regexp = RegexConstants.DOCUMENT_REGEX, message = "Document must be numeric")
     private String document;
@@ -29,7 +29,7 @@ public class RegisterDtoRequest {
     private String phone;
 
     @Past
-    private LocalDate birthdate;
+    private LocalDate birthDate;
 
     @Email
     private String email;
