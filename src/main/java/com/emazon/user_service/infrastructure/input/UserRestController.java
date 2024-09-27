@@ -27,8 +27,14 @@ public class UserRestController {
             @ApiResponse(responseCode = "400", description = "Invalid input data", content = @Content)
     })
     @PostMapping("/register/aux_bodega")
-    public ResponseEntity<Void> registerUser(@RequestBody @Valid RegisterDtoRequest registerDtoRequest) {
-        userHandler.registerUser(registerDtoRequest);
+    public ResponseEntity<Void> registerAuxBodega(@RequestBody @Valid RegisterDtoRequest registerDtoRequest) {
+        userHandler.registerAuxBodega(registerDtoRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PostMapping("/register/client")
+    public ResponseEntity<Void> registerUserClient(@RequestBody @Valid RegisterDtoRequest registerDtoRequest) {
+        userHandler.registerUserClient(registerDtoRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

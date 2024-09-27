@@ -19,13 +19,24 @@ public class UserHandler implements IUserHandler {
 
 
     @Override
-    public void registerUser(RegisterDtoRequest userDto) {
+    public void registerAuxBodega(RegisterDtoRequest userDto) {
         if (userDto == null) {
             throw new IllegalArgumentException("UserDto is null");
         }
 
         User user = userDtoMapper.toUser(userDto);
 
-        userService.registerUser(user);
+        userService.registerAuxBodega(user);
+    }
+
+    @Override
+    public void registerUserClient(RegisterDtoRequest user) {
+        if (user == null) {
+            throw new IllegalArgumentException("UserDto is null");
+        }
+
+        User userClient = userDtoMapper.toUser(user);
+
+        userService.registerUserClient(userClient);
     }
 }

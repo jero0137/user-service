@@ -1,5 +1,6 @@
 package com.emazon.user_service.infrastructure.configuration.Security;
 
+import com.emazon.user_service.Utils.Constants;
 import com.emazon.user_service.infrastructure.configuration.Security.JwtConfig.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -28,7 +29,7 @@ public class ConfigFilter {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/swagger-ui/**","/v3/api-docs/**").permitAll()
-                        .requestMatchers("/user/register/aux_bodega").hasAuthority("ADMIN")
+                        .requestMatchers("/user/register/**").hasAuthority(Constants.ROLE_ADMIN)
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

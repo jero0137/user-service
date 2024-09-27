@@ -7,14 +7,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.emazon.user_service.Config.TestSecurityConfig;
 import com.emazon.user_service.application.dto.RegisterDtoRequest;
 import com.emazon.user_service.application.handler.IUserHandler;
-import com.emazon.user_service.infrastructure.configuration.Security.JwtConfig.JwtTokenProvider;
 import com.emazon.user_service.infrastructure.input.UserRestController;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +20,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.LocalDate;
@@ -50,7 +46,7 @@ class UserRestControllerTest {
     }
 
     @Test
-    void registerUserWithValidDataReturnsCreatedStatus() throws Exception {
+    void registerAuxBodegaWithValidDataReturnsCreatedStatus() throws Exception {
         RegisterDtoRequest request = new RegisterDtoRequest(
                 "name",
                 "lastname",
@@ -66,11 +62,11 @@ class UserRestControllerTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated());
 
-        verify(userHandler, times(1)).registerUser(any(RegisterDtoRequest.class));
+        verify(userHandler, times(1)).registerAuxBodega(any(RegisterDtoRequest.class));
     }
 
     @Test
-    void registerUserWithInvalidDataReturnsBadRequestStatus() throws Exception {
+    void registerAuxBodegaWithInvalidDataReturnsBadRequestStatus() throws Exception {
         RegisterDtoRequest request = new RegisterDtoRequest(
                 "name",
                 "lastname",
@@ -86,6 +82,86 @@ class UserRestControllerTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
 
-        verify(userHandler, never()).registerUser(any(RegisterDtoRequest.class));
+        verify(userHandler, never()).registerAuxBodega(any(RegisterDtoRequest.class));
+    }
+
+    @Test
+    void registerUserClientWithValidDataReturnsCreatedStatus() throws Exception {
+        RegisterDtoRequest request = new RegisterDtoRequest(
+                "name",
+                "lastname",
+                "123456789",
+                "+571234567894",
+                LocalDate.of(2000, 1, 1),
+                "email@emalil.com",
+                "password"
+        );
+
+        mockMvc.perform(post("/user/register/client")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isCreated());
+
+        verify(userHandler, times(1)).registerUserClient(any(RegisterDtoRequest.class));
+    }
+
+    @Test
+    void registerUserClientWithInvalidDataReturnsBadRequestStatus() throws Exception {
+        RegisterDtoRequest request = new RegisterDtoRequest(
+                "name",
+                "lastname",
+                "12a456789", // Letter in document
+                "+57123456a894", // Letter in phone
+                LocalDate.of(2006, 1, 1),
+                "email@emalil.com",
+                "password"
+        );
+
+        mockMvc.perform(post("/user/register/client")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest());
+
+        verify(userHandler, never()).registerUserClient(any(RegisterDtoRequest.class));
+    }
+
+    @Test
+    void registerUserClientWithEmptyNameReturnsBadRequestStatus() throws Exception {
+        RegisterDtoRequest request = new RegisterDtoRequest(
+                "",
+                "lastname",
+                "123456789",
+                "+571234567894",
+                LocalDate.of(2000, 1, 1),
+                "email@emalil.com",
+                "password"
+        );
+
+        mockMvc.perform(post("/user/register/client")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest());
+
+        verify(userHandler, never()).registerUserClient(any(RegisterDtoRequest.class));
+    }
+
+    @Test
+    void registerUserClientWithEmptyPasswordReturnsBadRequestStatus() throws Exception {
+        RegisterDtoRequest request = new RegisterDtoRequest(
+                "name",
+                "lastname",
+                "123456789",
+                "+571234567894",
+                LocalDate.of(2000, 1, 1),
+                "email@emalil.com",
+                ""
+        );
+
+        mockMvc.perform(post("/user/register/client")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest());
+
+        verify(userHandler, never()).registerUserClient(any(RegisterDtoRequest.class));
     }
 }

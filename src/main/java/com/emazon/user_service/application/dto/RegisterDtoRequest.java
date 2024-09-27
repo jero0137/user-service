@@ -22,10 +22,10 @@ public class RegisterDtoRequest {
     @NotBlank
     private String lastName;
 
-    @Pattern(regexp = RegexConstants.DOCUMENT_REGEX, message = "Document must be numeric")
+    @Pattern(regexp = RegexConstants.DOCUMENT_REGEX)
     private String document;
 
-    @Pattern(regexp = RegexConstants.PHONE_REGEX, message = "Phone must be numeric and start with +")
+    @Pattern(regexp = RegexConstants.PHONE_REGEX)
     private String phone;
 
     @Past
@@ -34,5 +34,6 @@ public class RegisterDtoRequest {
     @Email
     private String email;
 
+    @NotBlank
     private String password;
 }
